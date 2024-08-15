@@ -5,5 +5,28 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Locket" parent="Base.Theme.Locket" />
+    <style name="Theme.Locket" parent="Base.Theme.Locket">
+        <item name="android:statusBarColor">@color/bg</item> <!-- Màu của thanh trạng thái -->
+        <item name="android:windowLightStatusBar">false
+        </item> <!-- Nội dung thanh trạng thái màu sáng -->
+        <item name="android:navigationBarColor">@color/bg</item> <!-- Màu của thanh điều hướng -->
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false
+        </item> <!-- Nội dung thanh điều hướng màu sáng -->
+    </style>
+    <!-- res/values/styles.xml -->
+    <style name="HintTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textColorHint">@color/hint</item>
+        <item name="android:fontFamily">@font/black</item>
+    </style>
+
+    <!-- res/values/styles.xml -->
+    <style name="HintTextAppearance2" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:fontFamily">@font/black</item>
+    </style>
+    <style name="ShapeAppearance.App.CornerSize50Percent" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50dp</item>
+    </style>
 </resources>
