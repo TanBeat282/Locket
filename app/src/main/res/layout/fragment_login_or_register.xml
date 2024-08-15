@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical"
+    tools:context=".fragment.login.LoginOrRegisterFragment">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/bg"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/assets_png_logo" />
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:fontFamily="@font/black"
+            android:gravity="center"
+            android:text="Ảnh trực tiếp từ bạn bè,"
+            android:textColor="@color/text"
+            android:textSize="@dimen/_15ssp" />
+        <TextView
+            android:id="@+id/txt_title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:fontFamily="@font/black"
+            android:gravity="center"
+            android:text="ngay trên màn hình chính"
+            android:textColor="@color/text"
+            android:textSize="@dimen/_15ssp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_btn_register"
+                android:fontFamily="@font/black"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_17sdp"
+                android:paddingVertical="@dimen/_12sdp"
+                android:text="Tạo một tài khoản"
+                android:textColor="@color/bg"
+                android:textSize="@dimen/_13ssp" />
+
+            <TextView
+                android:id="@+id/txt_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/black"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_17sdp"
+                android:text="Đăng nhập"
+                android:textColor="@color/text"
+                android:textSize="@dimen/_13ssp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".fragment.login.LoginEmailFragment2">
+
+    <LinearLayout
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginVertical="@dimen/_10sdp">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/background_btn"
+            android:paddingVertical="@dimen/_8sdp"
+            android:paddingStart="@dimen/_12sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:src="@drawable/arrow_back_ios_24px"
+            app:tint="@color/white" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_200sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/black"
+            android:gravity="center"
+            android:text="Điền mật khẩu của bạn"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp" />
+
+        <EditText
+            android:id="@+id/edt_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/background_edit_text"
+            android:fontFamily="@font/black"
+            android:hint="Mật khẩu"
+            android:paddingStart="@dimen/_10sdp"
+            android:textAppearance="@style/HintTextAppearance"
+            android:textColor="@color/white"
+            android:textColorHint="@color/hint" />
+
+        <TextView
+            android:id="@+id/txt_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/background_text_view"
+            android:fontFamily="@font/black"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_5sdp"
+            android:text="Bạn đã quên mật khẩu"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linear_continue"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:background="@drawable/background_text_view"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/txt_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/black"
+                android:text="Tiếp tục"
+                android:textColor="@color/hint"
+                android:textSize="@dimen/_12ssp" />
+
+            <ImageView
+                android:id="@+id/img_continue"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:src="@drawable/arrow_right_alt"
+                app:tint="@color/hint" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
