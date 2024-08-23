@@ -24,19 +24,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.tandev.locket.MainActivity;
 import com.tandev.locket.R;
 import com.tandev.locket.fragment.home.HomeFragment;
 import com.tandev.locket.helper.ResponseUtils;
 import com.tandev.locket.api.client.LoginApiClient;
 import com.tandev.locket.api.LoginApiService;
+import com.tandev.locket.model.login.check_email.CheckEmailResponse;
 import com.tandev.locket.model.login.request.LoginRequest;
-import com.tandev.locket.model.login.reponse.LoginResponse;
+import com.tandev.locket.model.login.response.LoginResponse;
 import com.tandev.locket.model.login.error.LoginError;
 import com.tandev.locket.sharedfreferences.SharedPreferencesUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,10 +52,11 @@ public class LoginEmailFragment2 extends Fragment {
     private ImageView img_back;
     private EditText edt_password;
     private TextView txt_forgot_password;
+    private TextView txt_forgot_password_send;
     private LinearLayout linear_continue;
     private TextView txt_continue;
     private ImageView img_continue;
-
+    private LoginApiService checkEmailApiService;
     private String email, password;
 
     @Override
@@ -68,6 +74,7 @@ public class LoginEmailFragment2 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        checkEmailApiService = LoginApiClient.getCheckEmailClient().create(LoginApiService.class);
         initViews(view);
         conFigViews();
         onClick();
@@ -84,6 +91,7 @@ public class LoginEmailFragment2 extends Fragment {
         img_back = view.findViewById(R.id.img_back);
         edt_password = view.findViewById(R.id.edt_password);
         txt_forgot_password = view.findViewById(R.id.txt_forgot_password);
+        txt_forgot_password_send = view.findViewById(R.id.txt_forgot_password_send);
         linear_continue = view.findViewById(R.id.linear_continue);
         txt_continue = view.findViewById(R.id.txt_continue);
         img_continue = view.findViewById(R.id.img_continue);
@@ -131,8 +139,53 @@ public class LoginEmailFragment2 extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
+        txt_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotPassword(email);
+            }
+        });
         linear_continue.setOnClickListener(view -> {
             login(email, password);
+        });
+    }
+
+    private String createJsonDataRequestForgotPassword(String email) {
+        return String.format("{\"data\": {\"email\": \"%s\"}}", email);
+    }
+
+    private void forgotPassword(String email) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), createJsonDataRequestForgotPassword(email));
+        Call<ResponseBody> checkEmailResponseCall = checkEmailApiService.FORGOT_PASSWORD_RESPONSE_CALL(requestBody);
+        checkEmailResponseCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String jsonResponse = response.body().string();
+                        JSONObject jsonObject = new JSONObject(jsonResponse);
+                        JSONObject resultObject = jsonObject.getJSONObject("result");
+                        int status = resultObject.getInt("status");
+                        if (status == 200) {
+                            txt_forgot_password.setVisibility(View.GONE);
+                            txt_forgot_password_send.setVisibility(View.VISIBLE);
+                        } else {
+                            Log.d(">>>>>>>>>>>>>>>>>>>>", "Status khác 200: Không thành công");
+                        }
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                        Log.e(">>>>>>>>>>>>>>>>>>>>", "Error parsing response: " + e.getMessage());
+                    }
+                } else {
+                    Log.d(">>>>>>>>>>>>>>>>>>>>", "Unsuccessful response: " + response.message());
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                Log.e(">>>>>>>>>>>>>>>>>>>>", "Unsuccessful response: " + throwable.getMessage());
+            }
         });
     }
 

@@ -26,7 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tandev.locket.R;
 import com.tandev.locket.fragment.login.LoginOrRegisterFragment;
-import com.tandev.locket.model.login.reponse.LoginResponse;
+import com.tandev.locket.model.login.response.LoginResponse;
 import com.tandev.locket.sharedfreferences.SharedPreferencesUser;
 
 public class BottomSheetInfo extends BottomSheetDialogFragment {

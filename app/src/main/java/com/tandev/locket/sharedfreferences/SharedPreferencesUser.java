@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.tandev.locket.model.login.reponse.LoginResponse;
+import com.tandev.locket.model.login.response.LoginResponse;
 import com.tandev.locket.model.login.request.LoginRequest;
 
 public class SharedPreferencesUser {

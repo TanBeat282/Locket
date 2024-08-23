@@ -26,14 +26,20 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.tandev.locket.MainActivity;
 import com.tandev.locket.R;
+import com.tandev.locket.api.UploadApiService;
 import com.tandev.locket.helper.ResponseUtils;
 import com.tandev.locket.api.client.LoginApiClient;
 import com.tandev.locket.api.LoginApiService;
+import com.tandev.locket.model.login.check_email.CheckEmailRequest;
+import com.tandev.locket.model.login.check_email.CheckEmailResponse;
 import com.tandev.locket.model.login.request.LoginRequest;
 import com.tandev.locket.model.login.error.LoginError;
 
 import java.io.IOException;
+import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,8 +52,7 @@ public class LoginEmailFragment extends Fragment {
     private LinearLayout linear_continue;
     private TextView txt_continue;
     private ImageView img_continue;
-    private static final String PASSWORD = "123";
-
+    private LoginApiService checkEmailApiService;
     private String email;
 
     @Override
@@ -65,7 +70,7 @@ public class LoginEmailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        checkEmailApiService = LoginApiClient.getCheckEmailClient().create(LoginApiService.class);
         initViews(view);
         conFigViews();
         onClick();
@@ -125,48 +130,39 @@ public class LoginEmailFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        linear_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkEmail(email);
-            }
-        });
+        linear_continue.setOnClickListener(view -> checkEmail(email));
+    }
+
+    private String createSignInJson(String operation, String email) {
+        return String.format(
+                "{\"data\":{\"operation\":\"%s\",\"email\":\"%s\"}}",
+                operation, email
+        );
     }
 
     private void checkEmail(String email) {
-        Retrofit retrofit = LoginApiClient.getLoginClient();
-        LoginApiService loginApiService = retrofit.create(LoginApiService.class);
-
-        LoginRequest request = new LoginRequest(email, PASSWORD, "CLIENT_TYPE_IOS", true);
-        Call<ResponseBody> call = loginApiService.LOGIN_RESPONSE_CALL(request);
-        call.enqueue(new Callback<ResponseBody>() {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), createSignInJson("sign_in", email));
+        Call<CheckEmailResponse> checkEmailResponseCall = checkEmailApiService.CHECK_EMAIL_RESPONSE_CALL(requestBody);
+        checkEmailResponseCall.enqueue(new Callback<CheckEmailResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (!response.isSuccessful() && response.body() == null) {
-                    String contentEncoding = response.headers().get("Content-Encoding");
-                    try {
-                        String responseBody = ResponseUtils.getResponseBody(response.errorBody().byteStream(), contentEncoding);
-                        Gson gson = new Gson();
-                        LoginError loginError = gson.fromJson(responseBody, LoginError.class);
-                        if (loginError.getError().getMessage().equals("EMAIL_NOT_FOUND")) {
-                            showAlertDialog("Tài khoản với email này không tồn tại", "Hãy đảm bảo rằng bạn đã điền chính xác email của mình.");
-                        } else if (loginError.getError().getMessage().equals("INVALID_PASSWORD")) {
-                            releaseFragment(email);
-                            hideKeyboard();
-                        } else {
-                            showAlertDialog("Chặn đăng nhập", "Bạn đã bị chặn đăng nhập do nhiều lần nhập sai email. Vui lòng thử lại sau.");
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+            public void onResponse(Call<CheckEmailResponse> call, Response<CheckEmailResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    CheckEmailResponse apiResponse = response.body();
+                    if (apiResponse.getResult().getStatus() == 200) {
+                        releaseFragment(email);
+                        hideKeyboard();
+                    } else {
+                        showAlertDialog("Tài khoản với email này không tồn tại", "Hãy đảm bảo rằng bạn đã điền chính xác email của mình.");
                     }
+                } else {
+                    Log.d(">>>>>>>>>>>>>>>>>>>>", "Unsuccessful response: " + response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("checkEmail", "Error: " + t.getMessage());
+            public void onFailure(Call<CheckEmailResponse> call, Throwable throwable) {
+                Log.e(">>>>>>>>>>>>>>>>>>>>", "Unsuccessful response: " + throwable.getMessage());
             }
-
         });
     }
 

@@ -1,35 +1,16 @@
-package com.tandev.locket.model.login.reponse;
-
-import com.google.gson.annotations.SerializedName;
+package com.tandev.locket.model.login.response;
 
 import java.io.Serializable;
 
 public class LoginResponse implements Serializable {
-    @SerializedName("kind")
     private String kind;
-
-    @SerializedName("localId")
     private String localId;
-
-    @SerializedName("email")
     private String email;
-
-    @SerializedName("displayName")
     private String displayName;
-
-    @SerializedName("idToken")
     private String idToken;
-
-    @SerializedName("registered")
     private boolean registered;
-
-    @SerializedName("profilePicture")
     private String profilePicture;
-
-    @SerializedName("refreshToken")
     private String refreshToken;
-
-    @SerializedName("expiresIn")
     private String expiresIn;
 
     public String getKind() {

@@ -70,6 +70,21 @@
             android:paddingVertical="@dimen/_5sdp"
             android:text="Bạn đã quên mật khẩu"
             android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/txt_forgot_password_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_margin="@dimen/_10sdp"
+            android:fontFamily="@font/black"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_5sdp"
+            android:text="Email đặt lại mật khẩu đã được gửi đi!"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
     </LinearLayout>
 

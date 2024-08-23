@@ -62,7 +62,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/black"
-                android:text="Trần Ngọc Tân"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_18ssp" />
 
