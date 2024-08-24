@@ -57,7 +57,8 @@ public class LoginEmailFragment2 extends Fragment {
     private TextView txt_continue;
     private ImageView img_continue;
     private LoginApiService checkEmailApiService;
-    private String email, password;
+    private String data, password;
+    private boolean isPhone = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,14 +68,15 @@ public class LoginEmailFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login_email2, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         checkEmailApiService = LoginApiClient.getCheckEmailClient().create(LoginApiService.class);
+
         initViews(view);
         conFigViews();
         onClick();
@@ -83,7 +85,8 @@ public class LoginEmailFragment2 extends Fragment {
 
     private void getDataBundle() {
         if (getArguments() != null) {
-            email = getArguments().getString("email");
+            isPhone = getArguments().getBoolean("is_phone");
+            data = getArguments().getString("data");
         }
     }
 
@@ -139,23 +142,18 @@ public class LoginEmailFragment2 extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        txt_forgot_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                forgotPassword(email);
-            }
-        });
+        txt_forgot_password.setOnClickListener(view -> forgotPassword(data));
         linear_continue.setOnClickListener(view -> {
-            login(email, password);
+            login(data, password);
         });
     }
 
-    private String createJsonDataRequestForgotPassword(String email) {
-        return String.format("{\"data\": {\"email\": \"%s\"}}", email);
+    private String createJsonDataRequestForgotPassword(String data) {
+        return isPhone ? String.format("{\"data\": {\"phone\": \"%s\"}}", data) : String.format("{\"data\": {\"email\": \"%s\"}}", data);
     }
 
-    private void forgotPassword(String email) {
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), createJsonDataRequestForgotPassword(email));
+    private void forgotPassword(String data) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), createJsonDataRequestForgotPassword(data));
         Call<ResponseBody> checkEmailResponseCall = checkEmailApiService.FORGOT_PASSWORD_RESPONSE_CALL(requestBody);
         checkEmailResponseCall.enqueue(new Callback<ResponseBody>() {
             @Override

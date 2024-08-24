@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
-    tools:context=".fragment.login.LoginEmailFragment">
+    tools:context=".fragment.login.LoginPhoneFragment">
 
     <LinearLayout
         android:id="@+id/tool_bar"
@@ -39,25 +39,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/black"
-            android:text="Email của bạn là gì?"
+            android:text="Số điện thoại của bạn là gì?"
             android:textColor="@color/white"
             android:textSize="@dimen/_18ssp" />
 
-        <EditText
-            android:id="@+id/edt_email"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/background_edit_text"
-            android:fontFamily="@font/black"
-            android:hint="Địa chỉ email"
-            android:paddingStart="@dimen/_10sdp"
-            android:textAppearance="@style/HintTextAppearance"
-            android:textColor="@color/white"
-            android:textColorHint="@color/hint" />
+            android:background="@drawable/background_edit_text">
+
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:src="@drawable/node_modules_reactnativephoneinput_dist_resources_flags_images_vn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/black"
+                android:text="+84"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp" />
+
+            <EditText
+                android:id="@+id/edt_phone"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_weight="1"
+                android:background="@drawable/background_edit_text"
+                android:fontFamily="@font/black"
+                android:textSize="@dimen/_14ssp"
+                android:textAppearance="@style/HintTextAppearance"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hint" />
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/login_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -66,7 +89,7 @@
             android:fontFamily="@font/black"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp"
-            android:text="Sử dụng số điện thoại thay cho cách này"
+            android:text="Sử dụng email thay cho cách này"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
     </LinearLayout>

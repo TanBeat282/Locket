@@ -24,6 +24,18 @@ public interface LoginApiService {
     @POST("validateEmailAddress")
     Call<CheckEmailResponse> CHECK_EMAIL_RESPONSE_CALL(@Body RequestBody body);
 
+    //Check phone
+    @Headers({
+            "Accept: */*",
+            "Accept-Encoding: gzip",
+            "Accept-Language: en",
+            "Connection: keep-alive",
+            "Content-Type: application/json; charset=utf-8"
+    })
+    @POST("sendVerificationCode")
+    Call<ResponseBody> CHECK_PHONE_RESPONSE_CALL(@Body RequestBody body);
+
+
     //Forgot password
     @Headers({
             "Accept: */*",

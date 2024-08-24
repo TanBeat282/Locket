@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,21 +24,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.tandev.locket.MainActivity;
 import com.tandev.locket.R;
-import com.tandev.locket.api.UploadApiService;
-import com.tandev.locket.fragment.home.HomeFragment;
-import com.tandev.locket.helper.ResponseUtils;
-import com.tandev.locket.api.client.LoginApiClient;
 import com.tandev.locket.api.LoginApiService;
-import com.tandev.locket.model.login.check_email.CheckEmailRequest;
+import com.tandev.locket.api.client.LoginApiClient;
 import com.tandev.locket.model.login.check_email.CheckEmailResponse;
-import com.tandev.locket.model.login.request.LoginRequest;
-import com.tandev.locket.model.login.error.LoginError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -45,17 +40,15 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
-public class LoginEmailFragment extends Fragment {
+public class LoginPhoneFragment extends Fragment {
     private ImageView img_back;
-    private EditText edt_email;
-    private TextView login_phone;
+    private EditText edt_phone;
     private LinearLayout linear_continue;
     private TextView txt_continue;
     private ImageView img_continue;
     private LoginApiService checkEmailApiService;
-    private String email;
+    private String phone;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +59,7 @@ public class LoginEmailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_login_phone, container, false);
     }
 
     @Override
@@ -80,23 +73,22 @@ public class LoginEmailFragment extends Fragment {
 
     private void initViews(View view) {
         img_back = view.findViewById(R.id.img_back);
-        edt_email = view.findViewById(R.id.edt_email);
-        login_phone = view.findViewById(R.id.login_phone);
+        edt_phone = view.findViewById(R.id.edt_phone);
         linear_continue = view.findViewById(R.id.linear_continue);
         txt_continue = view.findViewById(R.id.txt_continue);
         img_continue = view.findViewById(R.id.img_continue);
     }
 
     private void conFigViews() {
-        edt_email.requestFocus(); // Yêu cầu focus vào EditText
+        edt_phone.requestFocus(); // Yêu cầu focus vào EditText
 
         // Đảm bảo rằng bàn phím được mở sau khi focus vào EditText
         requireActivity().getWindow().getDecorView().post(() -> {
             InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(edt_email, InputMethodManager.SHOW_IMPLICIT);
+            imm.showSoftInput(edt_phone, InputMethodManager.SHOW_IMPLICIT);
         });
         // Thêm TextWatcher để theo dõi sự thay đổi văn bản trong EditText
-        edt_email.addTextChangedListener(new TextWatcher() {
+        edt_phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // Không cần thực hiện gì ở đây
@@ -109,9 +101,9 @@ public class LoginEmailFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                email = s.toString().trim();
+                phone = "+84" + s.toString().trim();
 
-                if (isValidEmail(email)) {
+                if (isValidEmail(phone)) {
                     // Đổi màu nền và kích hoạt LinearLayout nếu email hợp lệ
                     linear_continue.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.background_btn_continue_check));
                     txt_continue.setTextColor(getResources().getColor(R.color.bg));
@@ -133,38 +125,46 @@ public class LoginEmailFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        login_phone.setOnClickListener(view -> releaseFragment());
-        linear_continue.setOnClickListener(view -> checkEmail(email));
+        linear_continue.setOnClickListener(view -> checkEmail(phone));
     }
 
-    private String createSignInJson(String operation, String email) {
+    private String createSignInJson(String operation, String phone, boolean usePasswordIfAvailable) {
         return String.format(
-                "{\"data\":{\"operation\":\"%s\",\"email\":\"%s\"}}",
-                operation, email
+                "{\"data\":{\"use_password_if_available\":%b,\"phone\":\"%s\",\"operation\":\"%s\"}}",
+                usePasswordIfAvailable, phone, operation
         );
     }
 
-    private void checkEmail(String email) {
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), createSignInJson("sign_in", email));
-        Call<CheckEmailResponse> checkEmailResponseCall = checkEmailApiService.CHECK_EMAIL_RESPONSE_CALL(requestBody);
-        checkEmailResponseCall.enqueue(new Callback<CheckEmailResponse>() {
+
+    private void checkEmail(String phone) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), createSignInJson("sign_in", phone, true));
+        Call<ResponseBody> checkEmailResponseCall = checkEmailApiService.CHECK_PHONE_RESPONSE_CALL(requestBody);
+        checkEmailResponseCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<CheckEmailResponse> call, Response<CheckEmailResponse> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    CheckEmailResponse apiResponse = response.body();
-                    if (apiResponse.getResult().getStatus() == 200) {
-                        releaseFragment(email);
-                        hideKeyboard();
-                    } else {
-                        showAlertDialog("Tài khoản với email này không tồn tại", "Hãy đảm bảo rằng bạn đã điền chính xác email của mình.");
+                    try {
+                        String jsonResponse = response.body().string();
+                        JSONObject jsonObject = new JSONObject(jsonResponse);
+                        JSONObject resultObject = jsonObject.getJSONObject("result");
+                        int status = resultObject.getInt("status");
+                        if (status == 200) {
+                            releaseFragment(phone);
+                            hideKeyboard();
+                        } else {
+                            showAlertDialog("Không thể gửi mã", "Hãy đảm bảo thiết bị của bạn bắt sóng tốt. Chúng tôi cũng có thể đang bị quá tải, vui lòng quay lại sau và thử lại.");
+                        }
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                        Log.e(">>>>>>>>>>>>>>>>>>>>", "Error parsing response: " + e.getMessage());
                     }
                 } else {
-                    Log.d(">>>>>>>>>>>>>>>>>>>>", "Unsuccessful response: " + response.body());
+                    Log.d(">>>>>>>>>>>>>>>>>>>>", "Unsuccessful response: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<CheckEmailResponse> call, Throwable throwable) {
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                 Log.e(">>>>>>>>>>>>>>>>>>>>", "Unsuccessful response: " + throwable.getMessage());
             }
         });
@@ -181,11 +181,11 @@ public class LoginEmailFragment extends Fragment {
         }
     }
 
-    private void releaseFragment(String email) {
+    private void releaseFragment(String phone) {
         // Tạo Bundle và thêm dữ liệu vào đó
         Bundle bundle = new Bundle();
-        bundle.putBoolean("is_phone", false); // Ví dụ gửi email
-        bundle.putString("data", email); // Ví dụ gửi email
+        bundle.putBoolean("is_phone", true); // Ví dụ gửi email
+        bundle.putString("data", phone); // Ví dụ gửi email
 
         // Tạo PasswordFragment và thiết lập Bundle
         LoginEmailFragment2 passwordFragment = new LoginEmailFragment2();
@@ -204,20 +204,7 @@ public class LoginEmailFragment extends Fragment {
         transaction.addToBackStack(null); // Thêm vào back stack
         transaction.commit();
     }
-    private void releaseFragment() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(
-                R.anim.enter_from_right,
-                R.anim.exit_to_left,
-                R.anim.enter_from_left,
-                R.anim.exit_to_right
-        );
-        transaction.replace(R.id.frame_layout, new LoginPhoneFragment());
-        // Xóa toàn bộ back stack để không quay lại các Fragment trước đó
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        transaction.commit();
-    }
+
     private void showAlertDialog(String title, String content) {
         new AlertDialog.Builder(requireContext())
                 .setTitle(title)
@@ -230,6 +217,6 @@ public class LoginEmailFragment extends Fragment {
 
     // Phương thức kiểm tra định dạng email
     private boolean isValidEmail(CharSequence email) {
-        return email != null && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return email != null && Patterns.PHONE.matcher(email).matches();
     }
 }
