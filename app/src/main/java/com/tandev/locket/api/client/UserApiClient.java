@@ -3,7 +3,7 @@ package com.tandev.locket.api.client;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginApiClient {
+public class UserApiClient {
     private static Retrofit checkEmailRetrofit = null;
     private static Retrofit loginRetrofit = null;
     private static final String CHECK_EMAIL_BASE_URL = "https://api.locketcamera.com/";

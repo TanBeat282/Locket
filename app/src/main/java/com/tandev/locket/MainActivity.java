@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_layout, SharedPreferencesUser.getUserProfile(this) != null ? new HomeFragment() : new LoginOrRegisterFragment())
+                    .replace(R.id.frame_layout, SharedPreferencesUser.getLoginResponse(this) != null ? new HomeFragment() : new LoginOrRegisterFragment())
                     .commit();
         }
     }

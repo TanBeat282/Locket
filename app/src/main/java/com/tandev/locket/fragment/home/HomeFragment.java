@@ -5,13 +5,9 @@ import static android.app.Activity.RESULT_OK;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -28,7 +24,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -49,7 +44,6 @@ import com.google.android.gms.common.util.IOUtils;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.tandev.locket.MainActivity;
 import com.tandev.locket.R;
 import com.tandev.locket.api.ApiCaller;
 import com.tandev.locket.api.LoginApiService;
@@ -59,9 +53,9 @@ import com.tandev.locket.fragment.login.LoginEmailFragment2;
 import com.tandev.locket.fragment.login.LoginOrRegisterFragment;
 import com.tandev.locket.helper.ImageUtils;
 import com.tandev.locket.helper.ResponseUtils;
-import com.tandev.locket.model.login.error.LoginError;
-import com.tandev.locket.model.login.reponse.LoginResponse;
+import com.tandev.locket.model.login.response.LoginResponse;
 import com.tandev.locket.model.login.request.LoginRequest;
+import com.tandev.locket.model.user.AccountInfo;
 import com.tandev.locket.sharedfreferences.SharedPreferencesUser;
 
 import java.io.File;
@@ -69,6 +63,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,6 +73,7 @@ import retrofit2.Retrofit;
 
 public class HomeFragment extends Fragment {
     private static final int REQUEST_CAMERA_PERMISSION = 100;
+    private static final int REQUEST_CODE_PICK_IMAGE = 10001;
     private RelativeLayout relative_profile;
     private RelativeLayout relative_send_friend;
 
@@ -138,7 +135,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void getDataUser() {
-        loginResponse = SharedPreferencesUser.getUserProfile(requireContext());
+        loginResponse = SharedPreferencesUser.getLoginResponse(requireContext());
+        setData();
         checkExpiresToken();
     }
 
@@ -212,50 +210,23 @@ public class HomeFragment extends Fragment {
         img_capture.setOnClickListener(view -> capturePicture());
 
         layout_send.setOnClickListener(view -> sendImage(bytes, edt_message));
-        img_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BottomSheetInfo bottomSheetInfo = new BottomSheetInfo(requireContext(), getActivity());
-                bottomSheetInfo.show(getParentFragmentManager(), bottomSheetInfo.getTag());
-            }
+        img_profile.setOnClickListener(view -> {
+            BottomSheetInfo bottomSheetInfo = new BottomSheetInfo(requireContext(), getActivity());
+            bottomSheetInfo.show(getParentFragmentManager(), bottomSheetInfo.getTag());
         });
 
     }
 
     // Open gallery
     private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        openGalleryLauncher.launch(intent);
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
     }
-
-    private ActivityResultLauncher<Intent> openGalleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-            Uri selectedImageUri = result.getData().getData();
-            if (selectedImageUri != null) {
-                // Đọc ảnh từ Uri và chuyển thành byte[]
-                try {
-                    Uri compressedImageUri = ImageUtils.processImage(requireContext(), selectedImageUri, 50);
-                    img_view.setImageURI(compressedImageUri);
-
-                    InputStream inputStream = requireContext().getContentResolver().openInputStream(compressedImageUri);
-                    bytes = IOUtils.toByteArray(inputStream);
-
-                    relative_profile.setVisibility(View.GONE);
-                    relative_send_friend.setVisibility(View.VISIBLE);
-
-                    layout_img_view.setVisibility(View.VISIBLE);
-                    camera_view.setVisibility(View.GONE);
-                    linear_controller_media.setVisibility(View.GONE);
-                    linear_controller_send.setVisibility(View.VISIBLE);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    });
 
     private void setData() {
         //
+        Log.d(">>>>>>>>>>>>>", "setData: "+loginResponse.getProfilePicture());
         Glide.with(this).load(loginResponse.getProfilePicture()).into(img_profile);
     }
 
@@ -315,7 +286,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1001 && resultCode == RESULT_OK && data != null) {
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
             if (selectedImageUri != null) {
                 // Đọc ảnh từ Uri và chuyển thành byte[]
@@ -423,14 +394,20 @@ public class HomeFragment extends Fragment {
     }
 
     private void checkExpiresToken() {
+        AccountInfo accountInfo = SharedPreferencesUser.getAccountInfo(requireContext());
         long currentTimeMillis = System.currentTimeMillis();
-        long lastLoginMillis = SharedPreferencesUser.getLastLoginMillisecond(requireContext());
+        long lastLoginMillis = accountInfo.getUsers().get(0).getLastLoginAt();
         long timeDifference = currentTimeMillis - lastLoginMillis;
         if (timeDifference >= 1800000) {
             refreshToken();
-        } else {
-            setData();
         }
+    }
+
+    private String createSignInJson(String email, String password) {
+        return String.format(
+                "{\"email\":\"%s\",\"password\":\"%s\",\"returnSecureToken\":true,\"clientType\":\"CLIENT_TYPE_ANDROID\"}",
+                email, password
+        );
     }
 
     private void refreshToken() {
@@ -438,7 +415,8 @@ public class HomeFragment extends Fragment {
         LoginApiService loginApiService = retrofit.create(LoginApiService.class);
 
         LoginRequest request = SharedPreferencesUser.getLoginRequest(requireContext());
-        Call<ResponseBody> call = loginApiService.LOGIN_RESPONSE_CALL(request);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), createSignInJson(request.getEmail(), request.getPassword()));
+        Call<ResponseBody> call = loginApiService.LOGIN_RESPONSE_CALL(requestBody);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -448,11 +426,10 @@ public class HomeFragment extends Fragment {
                         String responseBody = ResponseUtils.getResponseBody(response.body().byteStream(), contentEncoding);
 
                         Gson gson = new Gson();
-                        loginResponse = gson.fromJson(responseBody, LoginResponse.class);
-                        SharedPreferencesUser.saveUserProfile(requireContext(), loginResponse);
-                        SharedPreferencesUser.saveLastLoginMillisecond(requireContext(), System.currentTimeMillis());
-                        setData();
+                        LoginResponse loginResponse = gson.fromJson(responseBody, LoginResponse.class);
 
+                        //save user
+                        SharedPreferencesUser.saveLoginResponse(requireContext(), loginResponse);
                     } catch (IOException e) {
                         Log.e("Auth", "Error reading response body", e);
                     }

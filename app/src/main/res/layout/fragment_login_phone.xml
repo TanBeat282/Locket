@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
-    tools:context=".fragment.login.LoginEmailFragment2">
+    tools:context=".fragment.login.LoginPhoneFragment">
 
     <LinearLayout
         android:id="@+id/tool_bar"
@@ -33,33 +33,54 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_200sdp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/black"
-            android:gravity="center"
-            android:text="Điền mật khẩu của bạn"
+            android:text="Số điện thoại của bạn là gì?"
             android:textColor="@color/white"
             android:textSize="@dimen/_18ssp" />
 
-        <EditText
-            android:id="@+id/edt_password"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/background_edit_text"
-            android:fontFamily="@font/black"
-            android:hint="Mật khẩu"
-            android:paddingStart="@dimen/_10sdp"
-            android:textAppearance="@style/HintTextAppearance"
-            android:textColor="@color/white"
-            android:textColorHint="@color/hint" />
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/background_edit_text">
+
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:src="@drawable/node_modules_reactnativephoneinput_dist_resources_flags_images_vn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/black"
+                android:text="+84"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp" />
+
+            <EditText
+                android:id="@+id/edt_phone"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_weight="1"
+                android:background="@drawable/background_edit_text"
+                android:fontFamily="@font/black"
+                android:textSize="@dimen/_14ssp"
+                android:textAppearance="@style/HintTextAppearance"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hint" />
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/txt_forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -68,22 +89,7 @@
             android:fontFamily="@font/black"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp"
-            android:text="Bạn đã quên mật khẩu"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/txt_forgot_password_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_margin="@dimen/_10sdp"
-            android:fontFamily="@font/black"
-            android:paddingHorizontal="@dimen/_10sdp"
-            android:paddingVertical="@dimen/_5sdp"
-            android:text="Email đặt lại mật khẩu đã được gửi đi!"
+            android:text="Sử dụng email thay cho cách này"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
     </LinearLayout>
@@ -96,13 +102,25 @@
         android:layout_marginBottom="@dimen/_20sdp"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:fontFamily="@font/black"
+            android:gravity="center"
+            android:text="Bằng cách nhấn vào nút Tiếp tục, bạn đồng ý với chúng tôi Điều khoản dịch vụ và Chính sách quyền riêng tư"
+            android:textColor="@color/hint"
+            android:textSize="@dimen/_10ssp" />
+
         <LinearLayout
             android:id="@+id/linear_continue"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/background_text_view"
-            android:gravity="center">
+            android:gravity="center"
+            android:saveEnabled="false">
 
             <TextView
                 android:id="@+id/txt_continue"

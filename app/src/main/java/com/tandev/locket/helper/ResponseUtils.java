@@ -8,6 +8,7 @@ import java.util.zip.GZIPInputStream;
 
 public class ResponseUtils {
 
+
     public static String getResponseBody(InputStream inputStream, String contentEncoding) throws IOException {
         if ("gzip".equalsIgnoreCase(contentEncoding)) {
             try (GZIPInputStream gzipInputStream = new GZIPInputStream(inputStream)) {
