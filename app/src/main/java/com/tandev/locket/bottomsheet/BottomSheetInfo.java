@@ -39,7 +39,7 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
     private RoundedImageView img_avatar_2;
     private TextView txt_edit_info;
     private TextView txt_full_name;
-    private LinearLayout linear_logout;
+    private LinearLayout linear_logout, linear_new, linear_change_email;
 
     public BottomSheetInfo(Context context, Activity activity) {
         this.context = context;
@@ -70,9 +70,11 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
 
     private void initViews(BottomSheetDialog bottomSheetDialog) {
         txt_edit_info = bottomSheetDialog.findViewById(R.id.txt_edit_info);
+        linear_new = bottomSheetDialog.findViewById(R.id.linear_new);
         img_capture = bottomSheetDialog.findViewById(R.id.img_capture);
         img_avatar_2 = bottomSheetDialog.findViewById(R.id.img_avatar_2);
         txt_full_name = bottomSheetDialog.findViewById(R.id.txt_full_name);
+        linear_change_email = bottomSheetDialog.findViewById(R.id.linear_change_email);
         linear_logout = bottomSheetDialog.findViewById(R.id.linear_logout);
 
         AccountInfo accountInfo = SharedPreferencesUser.getAccountInfo(requireContext());
@@ -86,8 +88,19 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
         linear_logout.setOnClickListener(view -> {
             openBottomSheetLogout();
         });
+        linear_new.setOnClickListener(view -> openBottomSheetRegisterUserName());
 
         txt_edit_info.setOnClickListener(view -> openBottomSheetChangeName());
+        linear_change_email.setOnClickListener(view -> openBottomSheetChangeEmail());
+    }
+
+    private void openBottomSheetRegisterUserName() {
+        BottomSheetRegisterUserName bottomSheetRegisterUserName = new BottomSheetRegisterUserName(context, activity);
+        bottomSheetRegisterUserName.show(getActivity().getSupportFragmentManager(), bottomSheetRegisterUserName.getTag());
+    }
+    private void openBottomSheetChangeEmail() {
+        BottomSheetChangeEmail bottomSheetChangeEmail = new BottomSheetChangeEmail(context, activity);
+        bottomSheetChangeEmail.show(getActivity().getSupportFragmentManager(), bottomSheetChangeEmail.getTag());
     }
 
     private void openBottomSheetLogout() {

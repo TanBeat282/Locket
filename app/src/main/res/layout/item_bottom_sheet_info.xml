@@ -4,11 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_bottomsheet_option_song"
-    android:paddingBottom="@dimen/_10sdp">
+    android:paddingBottom="@dimen/_20sdp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/material_card"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_4sdp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="@dimen/_10sdp"
+        app:cardBackgroundColor="@color/hint" />
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_below="@+id/material_card"
         android:layout_height="match_parent">
 
         <RelativeLayout
@@ -16,28 +26,17 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/_10sdp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/material_card"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_4sdp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_10sdp"
-                app:cardBackgroundColor="@color/item_bottom_sheet" />
-
-
             <RelativeLayout
                 android:id="@+id/relative_avatar"
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="@dimen/_90sdp"
-                android:layout_below="@+id/material_card"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_50sdp">
+                android:layout_marginTop="@dimen/_40sdp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/img_capture"
-                    android:layout_width="@dimen/_90sdp"
-                    android:layout_height="@dimen/_90sdp"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
                     android:background="@drawable/background_btn_capture"
                     android:padding="@dimen/_6sdp"
                     android:src="@color/white"
@@ -277,44 +276,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_10sdp">
-
-                    <ImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/call_24px"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/black"
-                        android:text="Thay đổi số điện thoại"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_12ssp" />
-
-                    <ImageView
-                        android:layout_width="@dimen/_16sdp"
-                        android:layout_height="@dimen/_16sdp"
-                        android:layout_gravity="center"
-                        android:rotation="180"
-                        android:src="@drawable/arrow_back_ios_24px"
-                        app:tint="@color/text" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/bg" />
-
-                <LinearLayout
+                    android:id="@+id/linear_change_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
