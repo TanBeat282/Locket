@@ -33,6 +33,7 @@ import com.tandev.locket.model.login.check_email.CheckEmailResponse;
 import com.tandev.locket.model.login.request.LoginRequest;
 import com.tandev.locket.model.login.response.LoginResponse;
 import com.tandev.locket.model.login.error.LoginError;
+import com.tandev.locket.model.user.AccountInfo;
 import com.tandev.locket.sharedfreferences.SharedPreferencesUser;
 
 import org.json.JSONException;
@@ -56,7 +57,9 @@ public class LoginEmailFragment2 extends Fragment {
     private LinearLayout linear_continue;
     private TextView txt_continue;
     private ImageView img_continue;
-    private LoginApiService checkEmailApiService;
+
+    private Retrofit retrofit;
+    private LoginApiService loginApiService;
     private String data, password;
     private boolean isPhone = false;
 
@@ -75,7 +78,11 @@ public class LoginEmailFragment2 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        checkEmailApiService = LoginApiClient.getCheckEmailClient().create(LoginApiService.class);
+        //
+        loginApiService = LoginApiClient.getCheckEmailClient().create(LoginApiService.class);
+
+        retrofit = LoginApiClient.getLoginClient();
+        loginApiService = retrofit.create(LoginApiService.class);
 
         initViews(view);
         conFigViews();
@@ -149,12 +156,12 @@ public class LoginEmailFragment2 extends Fragment {
     }
 
     private String createJsonDataRequestForgotPassword(String data) {
-        return isPhone ? String.format("{\"data\": {\"phone\": \"%s\"}}", data) : String.format("{\"data\": {\"email\": \"%s\"}}", data);
+        return String.format("{\"data\": {\"email\": \"%s\"}}", data);
     }
 
     private void forgotPassword(String data) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), createJsonDataRequestForgotPassword(data));
-        Call<ResponseBody> checkEmailResponseCall = checkEmailApiService.FORGOT_PASSWORD_RESPONSE_CALL(requestBody);
+        Call<ResponseBody> checkEmailResponseCall = loginApiService.FORGOT_PASSWORD_RESPONSE_CALL(requestBody);
         checkEmailResponseCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -187,12 +194,18 @@ public class LoginEmailFragment2 extends Fragment {
         });
     }
 
-    private void login(String email, String password) {
-        Retrofit retrofit = LoginApiClient.getLoginClient();
-        LoginApiService loginApiService = retrofit.create(LoginApiService.class);
+    private String createSignInJson(String email, String password) {
+        return String.format(
+                "{\"email\":\"%s\",\"password\":\"%s\",\"returnSecureToken\":true,\"clientType\":\"CLIENT_TYPE_ANDROID\"}",
+                email, password
+        );
+    }
 
-        LoginRequest request = new LoginRequest(email, password, "CLIENT_TYPE_IOS", true);
-        Call<ResponseBody> call = loginApiService.LOGIN_RESPONSE_CALL(request);
+    private void login(String email, String password) {
+        LoginRequest request = new LoginRequest(email, password, "CLIENT_TYPE_ANDROID", true);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), createSignInJson(email, password));
+
+        Call<ResponseBody> call = loginApiService.LOGIN_RESPONSE_CALL(requestBody);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -204,9 +217,65 @@ public class LoginEmailFragment2 extends Fragment {
                         Gson gson = new Gson();
                         LoginResponse loginResponse = gson.fromJson(responseBody, LoginResponse.class);
 
-                        SharedPreferencesUser.saveUserProfile(requireContext(), loginResponse);
+                        //save user
+                        // save LoginRequest để refreshToken trong Home
                         SharedPreferencesUser.saveLoginRequest(requireContext(), request);
-                        SharedPreferencesUser.saveLastLoginMillisecond(requireContext(), System.currentTimeMillis());
+                        SharedPreferencesUser.saveLoginResponse(requireContext(), loginResponse);
+
+                        getAccountInfo(loginResponse.getIdToken());
+                    } catch (IOException e) {
+                        Log.e("Auth", "Error reading response body", e);
+                    }
+                } else {
+                    try {
+                        String contentEncoding = response.headers().get("Content-Encoding");
+                        String responseBody = ResponseUtils.getResponseBody(response.errorBody().byteStream(), contentEncoding);
+                        Gson gson = new Gson();
+                        LoginError loginError = gson.fromJson(responseBody, LoginError.class);
+
+                        if (loginError.getError().getMessage().toString().equals("INVALID_PASSWORD")) {
+                            showAlertDialog("Không thể đăng nhập vào tài khoản của bạn", "Hãy đảm bảo rằng bạn đã điền chính xác mật khẩu của mình.");
+                        } else {
+                            showAlertDialog("Chặn đăng nhập", "Bạn đã bị chặn đăng nhập do nhiều lần nhập sai email. Vui lòng thử lại sau.");
+                        }
+                        Log.e("login", "onResponse: " + loginError.getError().getMessage().toString());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("login", "Error: " + t.getMessage());
+            }
+
+        });
+    }
+
+    private String createAccountInfoJson(String idToken) {
+        return String.format("{\"idToken\":\"%s\"}", idToken);
+    }
+
+    private void getAccountInfo(String token) {
+        Retrofit retrofit = LoginApiClient.getLoginClient();
+        LoginApiService loginApiService = retrofit.create(LoginApiService.class);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), createAccountInfoJson(token));
+
+        Call<ResponseBody> call = loginApiService.ACCOUNT_INFO_RESPONSE_CALL(requestBody);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String contentEncoding = response.headers().get("Content-Encoding");
+                        String responseBody = ResponseUtils.getResponseBody(response.body().byteStream(), contentEncoding);
+
+                        Gson gson = new Gson();
+                        AccountInfo accountInfo = gson.fromJson(responseBody, AccountInfo.class);
+
+                        SharedPreferencesUser.saveAccountInfo(requireContext(), accountInfo);
 
                         releaseFragment();
                     } catch (IOException e) {
@@ -218,12 +287,6 @@ public class LoginEmailFragment2 extends Fragment {
                         String responseBody = ResponseUtils.getResponseBody(response.errorBody().byteStream(), contentEncoding);
                         Gson gson = new Gson();
                         LoginError loginError = gson.fromJson(responseBody, LoginError.class);
-
-                        if (loginError.getError().toString().equals("INVALID_PASSWORD")) {
-                            showAlertDialog("Không thể đăng nhập vào tài khoản của bạn", "Hãy đảm bảo rằng bạn đã điền chính xác mật khẩu của mình.");
-                        } else {
-                            showAlertDialog("Chặn đăng nhập", "Bạn đã bị chặn đăng nhập do nhiều lần nhập sai email. Vui lòng thử lại sau.");
-                        }
                         Log.e("login", "onResponse: " + loginError.getError().getMessage().toString());
                     } catch (IOException e) {
                         throw new RuntimeException(e);

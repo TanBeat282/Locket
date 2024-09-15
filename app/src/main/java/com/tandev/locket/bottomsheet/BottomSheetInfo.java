@@ -27,6 +27,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.tandev.locket.R;
 import com.tandev.locket.fragment.login.LoginOrRegisterFragment;
 import com.tandev.locket.model.login.response.LoginResponse;
+import com.tandev.locket.model.user.AccountInfo;
 import com.tandev.locket.sharedfreferences.SharedPreferencesUser;
 
 public class BottomSheetInfo extends BottomSheetDialogFragment {
@@ -36,6 +37,7 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
 
     private RoundedImageView img_capture;
     private RoundedImageView img_avatar_2;
+    private TextView txt_edit_info;
     private TextView txt_full_name;
     private LinearLayout linear_logout;
 
@@ -67,31 +69,34 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
     }
 
     private void initViews(BottomSheetDialog bottomSheetDialog) {
+        txt_edit_info = bottomSheetDialog.findViewById(R.id.txt_edit_info);
         img_capture = bottomSheetDialog.findViewById(R.id.img_capture);
         img_avatar_2 = bottomSheetDialog.findViewById(R.id.img_avatar_2);
         txt_full_name = bottomSheetDialog.findViewById(R.id.txt_full_name);
         linear_logout = bottomSheetDialog.findViewById(R.id.linear_logout);
 
-        LoginResponse  loginResponse = SharedPreferencesUser.getUserProfile(requireContext());
-        txt_full_name.setText(loginResponse.getDisplayName());
-        Glide.with(this).load(loginResponse.getProfilePicture()).into(img_avatar_2);
-        Glide.with(this).load(loginResponse.getProfilePicture()).into(img_capture);
+        AccountInfo accountInfo = SharedPreferencesUser.getAccountInfo(requireContext());
+        txt_full_name.setText(accountInfo.getUsers().get(0).getDisplayName());
+        Glide.with(this).load(accountInfo.getUsers().get(0).getPhotoUrl()).into(img_avatar_2);
+        Glide.with(this).load(accountInfo.getUsers().get(0).getPhotoUrl()).into(img_capture);
     }
 
     private void onClick() {
 
         linear_logout.setOnClickListener(view -> {
-            SharedPreferencesUser.clearAll(requireContext());
-            releaseFragment();
-            bottomSheetDialog.dismiss();
+            openBottomSheetLogout();
         });
+
+        txt_edit_info.setOnClickListener(view -> openBottomSheetChangeName());
     }
-    private void releaseFragment() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, new LoginOrRegisterFragment());
-        // Xóa toàn bộ back stack để không quay lại các Fragment trước đó
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        transaction.commit();
+
+    private void openBottomSheetLogout() {
+        BottomSheetLogout bottomSheetLogout = new BottomSheetLogout(context, activity);
+        bottomSheetLogout.show(getActivity().getSupportFragmentManager(), bottomSheetLogout.getTag());
+    }
+
+    private void openBottomSheetChangeName() {
+        BottomSheetChangeName bottomSheetChangeName = new BottomSheetChangeName(context, activity);
+        bottomSheetChangeName.show(getActivity().getSupportFragmentManager(), bottomSheetChangeName.getTag());
     }
 }

@@ -6,34 +6,20 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.tandev.locket.model.login.response.LoginResponse;
 import com.tandev.locket.model.login.request.LoginRequest;
+import com.tandev.locket.model.user.AccountInfo;
 
 public class SharedPreferencesUser {
+    // save user
     private static final String USER_PROFILE = "user_profile";
-    private static final String USER = "user";
 
-    private static final String LOGIN_REQUEST_PROFILE = "login_request";
+
     private static final String LOGIN_REQUEST = "login_request";
+    private static final String LOGIN_RESPONSE = "login_response";
+    private static final String ACCOUNT_INFO = "account_info";
 
-    private static final String LAST_LOGIN_MILLISECOND = "last_login_millisecond";
-
-    public static void saveUserProfile(Context context, LoginResponse loginResponse) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(loginResponse);
-        editor.putString(USER, json);
-        editor.apply();
-    }
-
-    public static LoginResponse getUserProfile(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
-        String json = sharedPreferences.getString(USER, null);
-        Gson gson = new Gson();
-        return gson.fromJson(json, LoginResponse.class);
-    }
 
     public static void saveLoginRequest(Context context, LoginRequest loginRequest) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_REQUEST_PROFILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(loginRequest);
@@ -42,41 +28,47 @@ public class SharedPreferencesUser {
     }
 
     public static LoginRequest getLoginRequest(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_REQUEST_PROFILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
         String json = sharedPreferences.getString(LOGIN_REQUEST, null);
         Gson gson = new Gson();
         return gson.fromJson(json, LoginRequest.class);
     }
-    // Hàm lưu millisecond
-    public static void saveLastLoginMillisecond(Context context, long millisecond) {
+
+
+    public static void saveLoginResponse(Context context, LoginResponse loginResponse) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(LAST_LOGIN_MILLISECOND, millisecond);
+        Gson gson = new Gson();
+        String json = gson.toJson(loginResponse);
+        editor.putString(LOGIN_RESPONSE, json);
         editor.apply();
     }
 
-    // Hàm lấy millisecond
-    public static long getLastLoginMillisecond(Context context) {
+    public static LoginResponse getLoginResponse(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
-        return sharedPreferences.getLong(LAST_LOGIN_MILLISECOND, 0);
+        String json = sharedPreferences.getString(LOGIN_RESPONSE, null);
+        Gson gson = new Gson();
+        return gson.fromJson(json, LoginResponse.class);
+    }
+
+    public static void saveAccountInfo(Context context, AccountInfo accountInfo) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(accountInfo);
+        editor.putString(ACCOUNT_INFO, json);
+        editor.apply();
+    }
+
+    public static AccountInfo getAccountInfo(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString(ACCOUNT_INFO, null);
+        Gson gson = new Gson();
+        return gson.fromJson(json, AccountInfo.class);
     }
 
     // Hàm xóa tất cả thông tin
     public static void clearAll(Context context) {
-        SharedPreferences userProfilePreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE);
-        SharedPreferences loginRequestPreferences = context.getSharedPreferences(LOGIN_REQUEST_PROFILE, Context.MODE_PRIVATE);
-        SharedPreferences lastLoginMillisecondPreferences = context.getSharedPreferences(LAST_LOGIN_MILLISECOND, Context.MODE_PRIVATE);
 
-        SharedPreferences.Editor userProfileEditor = userProfilePreferences.edit();
-        SharedPreferences.Editor loginRequestEditor = loginRequestPreferences.edit();
-        SharedPreferences.Editor lastLoginMillisecondEditor = lastLoginMillisecondPreferences.edit();
-
-        userProfileEditor.clear();
-        loginRequestEditor.clear();
-        lastLoginMillisecondEditor.clear();
-
-        userProfileEditor.apply();
-        loginRequestEditor.apply();
-        lastLoginMillisecondEditor.apply();
     }
 }
