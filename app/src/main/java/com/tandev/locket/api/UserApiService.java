@@ -21,7 +21,7 @@ public interface UserApiService {
     })
     @POST("changeProfileInfo")
     Call<ResponseBody> CHANGE_NAME_RESPONSE_CALL(
-            @Header("Authorization") String token,  // Token động
+            @Header("Authorization") String token,
             @Body RequestBody body
     );
 
@@ -36,7 +36,7 @@ public interface UserApiService {
     })
     @POST("validateUsername")
     Call<ResponseBody> CHECK_USERNAME_RESPONSE_CALL(
-            @Header("Authorization") String token,  // Token động
+            @Header("Authorization") String token,
             @Body RequestBody body
     );
 
@@ -51,7 +51,7 @@ public interface UserApiService {
     })
     @POST("changeProfileInfo")
     Call<ResponseBody> username_discoverability_disabled(
-            @Header("Authorization") String token,  // Token động
+            @Header("Authorization") String token,
             @Body RequestBody body
     );
 

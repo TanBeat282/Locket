@@ -60,7 +60,7 @@
                 android:layout_below="@+id/relative_avatar"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/black"
+                android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_18ssp" />
 
@@ -73,7 +73,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_10sdp"
                 android:background="@drawable/background_item_bottom_sheet"
-                android:fontFamily="@font/black"
+                android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                 android:paddingHorizontal="@dimen/_10sdp"
                 android:paddingVertical="@dimen/_5sdp"
                 android:text="Sửa thông tin"
@@ -111,7 +111,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Mới"
                         android:textColor="@color/app"
                         android:textSize="@dimen/_12ssp" />
@@ -119,7 +119,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Đăng ký tên người dùng của bạn"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/black"
+                    android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                     android:text="Thiết lập Tiện ích"
                     android:textColor="@color/text"
                     android:textSize="@dimen/_12ssp" />
@@ -187,7 +187,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Thêm Tiện ích"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -225,7 +225,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Hướng dẫn về Tiện ích"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -260,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/black"
+                    android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                     android:text="Tổng quát"
                     android:textColor="@color/text"
                     android:textSize="@dimen/_14ssp" />
@@ -295,7 +295,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Thay đổi địa chỉ email"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -334,7 +334,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Chia sẻ phản hồi"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -372,7 +372,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Báo cáo sự cố"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -407,7 +407,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/black"
+                    android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                     android:text="Giới thiệu"
                     android:textColor="@color/text"
                     android:textSize="@dimen/_14ssp" />
@@ -441,7 +441,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="TikTok"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -479,7 +479,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Instagram"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -518,7 +518,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Twitter"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -556,7 +556,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Chia sẻ Locket"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -594,7 +594,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Đánh giá Locket"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -632,7 +632,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Điều khoản dịch vụ"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -670,7 +670,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Chính sách quyền riêng tư"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -705,7 +705,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/black"
+                    android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                     android:text="Vùng nguy hiểm"
                     android:textColor="@color/text"
                     android:textSize="@dimen/_14ssp" />
@@ -740,7 +740,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Đăng xuất"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
@@ -778,7 +778,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Xóa tài khoản"
                         android:textColor="@color/red"
                         android:textSize="@dimen/_12ssp" />

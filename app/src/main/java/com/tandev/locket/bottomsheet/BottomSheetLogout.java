@@ -41,7 +41,10 @@ public class BottomSheetLogout extends BottomSheetDialogFragment {
         this.context = context;
         this.activity = activity;
     }
-
+    @Override
+    public int getTheme() {
+        return R.style.CustomBottomSheetDialogTheme; // Áp dụng theme tùy chỉnh
+    }
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

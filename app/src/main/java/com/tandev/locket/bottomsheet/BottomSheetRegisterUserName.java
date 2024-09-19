@@ -67,7 +67,10 @@ public class BottomSheetRegisterUserName extends BottomSheetDialogFragment {
         this.activity = activity;
     }
 
-
+    @Override
+    public int getTheme() {
+        return R.style.CustomBottomSheetDialogTheme; // Áp dụng theme tùy chỉnh
+    }
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

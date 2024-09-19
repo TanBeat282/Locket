@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/img_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
         android:layout_alignParentTop="true"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -42,7 +42,7 @@
             android:layout_height="@dimen/_45sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/background_edit_text"
-            android:fontFamily="@font/black"
+            android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
             android:gravity="center"
             android:hint="tên người dùng"
             android:textAppearance="@style/HintTextAppearance"
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
-            android:fontFamily="@font/black"
+            android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
             android:gravity="center"
             android:text="Việc này sẽ giúp bạn bè của bạn tìm thấy bạn trên Locket!"
             android:textColor="@color/hint"

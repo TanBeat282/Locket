@@ -29,7 +29,7 @@
             android:layout_height="@dimen/_45sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/background_edit_text"
-            android:fontFamily="@font/black"
+            android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
             android:hint="Địa chỉ email"
             android:paddingStart="@dimen/_10sdp"
             android:textAppearance="@style/HintTextAppearance"

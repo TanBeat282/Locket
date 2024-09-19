@@ -10,7 +10,6 @@ import retrofit2.http.POST;
 
 public interface MomentApiService {
 
-    //Check email
     @Headers({
             "Accept-Encoding: gzip",
             "Connection: Keep-Alive",
@@ -21,7 +20,7 @@ public interface MomentApiService {
     })
     @POST("getLatestMomentV2")
     Call<ResponseBody> GET_MOMENT_V2(
-            @Header("Authorization") String token,  // Token động
+            @Header("Authorization") String token,
             @Body RequestBody body
     );
 

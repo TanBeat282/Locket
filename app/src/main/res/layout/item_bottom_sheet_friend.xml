@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/black"
+                android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                 android:gravity="center"
                 android:text="2 / 20 người bạn đã được bổ sung"
                 android:textColor="@color/hint"
@@ -73,7 +73,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Thêm một người bạn"
                         android:textColor="@color/hint"
                         android:textSize="@dimen/_14ssp" />
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/black"
+                    android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                     android:text="Tìm bạn bè từ các ứng dụng khác"
                     android:textColor="@color/hint"
                     android:textSize="@dimen/_13ssp" />
@@ -183,7 +183,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/img_messenger"
                         android:layout_centerInParent="true"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Mess"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_13ssp" />
@@ -220,7 +220,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/img_zalo"
                         android:layout_centerInParent="true"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Zalo"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_13ssp" />
@@ -257,7 +257,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/img_insta"
                         android:layout_centerInParent="true"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Insta"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_13ssp" />
@@ -295,7 +295,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/img_other"
                         android:layout_centerInParent="true"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Khác"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_13ssp" />
@@ -321,7 +321,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/black"
+                    android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                     android:text="Bạn bè của bạn"
                     android:textColor="@color/hint"
                     android:textSize="@dimen/_13ssp" />
@@ -349,7 +349,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/black"
+                    android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                     android:text="Mời từ các ứng dụng khác"
                     android:textColor="@color/hint"
                     android:textSize="@dimen/_13ssp" />
@@ -390,7 +390,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_toEndOf="@id/img_messages"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Messages"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_13ssp" />
@@ -438,7 +438,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_toEndOf="@id/img_other2"
-                        android:fontFamily="@font/black"
+                        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                         android:text="Các ứng dụng khác"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_13ssp" />

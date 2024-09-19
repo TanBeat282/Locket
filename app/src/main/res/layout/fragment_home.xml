@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/black"
+                    android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                     android:text="1 Bạn bè"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14ssp" />

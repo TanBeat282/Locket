@@ -57,7 +57,10 @@ public class BottomSheetChangeName extends BottomSheetDialogFragment {
         this.activity = activity;
     }
 
-
+    @Override
+    public int getTheme() {
+        return R.style.CustomBottomSheetDialogTheme; // Áp dụng theme tùy chỉnh
+    }
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("SetTextI18n")
     @NonNull

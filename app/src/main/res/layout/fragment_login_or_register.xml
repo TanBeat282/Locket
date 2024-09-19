@@ -34,24 +34,22 @@
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_70sdp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:fontFamily="@font/black"
+            android:fontFamily="@font/assets_fonts_proximasoft_proximasoftextrabold"
             android:gravity="center"
             android:text="Ảnh trực tiếp từ bạn bè,"
             android:textColor="@color/text"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/_16ssp" />
         <TextView
             android:id="@+id/txt_title2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_70sdp"
             android:layout_marginTop="@dimen/_1sdp"
-            android:fontFamily="@font/black"
+            android:fontFamily="@font/assets_fonts_proximasoft_proximasoftextrabold"
             android:gravity="center"
             android:text="ngay trên màn hình chính"
             android:textColor="@color/text"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/_16ssp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_btn_register"
-                android:fontFamily="@font/black"
+                android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/_17sdp"
                 android:paddingVertical="@dimen/_12sdp"

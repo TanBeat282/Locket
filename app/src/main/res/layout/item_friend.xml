@@ -22,8 +22,8 @@
         android:layout_centerVertical="true"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_toEndOf="@id/img_avatar"
-        android:fontFamily="@font/black"
-        android:text="AAAAAAAA"
+        android:layout_toStartOf="@id/img_un_friend"
+        android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
         android:textColor="@color/white"
         android:textSize="@dimen/_14ssp" />
 

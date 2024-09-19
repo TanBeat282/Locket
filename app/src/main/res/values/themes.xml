@@ -25,13 +25,34 @@
         <item name="android:textSize">@dimen/_12ssp</item>
         <item name="android:fontFamily">@font/black</item>
     </style>
+
     <style name="ShapeAppearance.App.CornerSize50Percent" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50dp</item>
     </style>
+
     <style name="RoundedCorners">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item> <!-- Điều chỉnh kích thước góc bo -->
     </style>
+
+
+<!--    Bottomsheet-->
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <!-- Thiết lập background của BottomSheet thành trong suốt -->
+        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+    </style>
+
+    <style name="CustomBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <!-- Thiết lập góc bo tròn cho BottomSheet -->
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.BottomSheet</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.BottomSheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_30sdp</item>
+    </style>
+
 
 </resources>
