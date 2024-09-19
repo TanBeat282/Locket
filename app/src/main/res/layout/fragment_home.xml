@@ -23,6 +23,7 @@
             android:id="@+id/relative_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
             android:visibility="visible">
 
             <com.makeramen.roundedimageview.RoundedImageView
@@ -40,12 +41,11 @@
                 android:id="@+id/linear_friends"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_38sdp"
-                android:layout_marginHorizontal="@dimen/_55sdp"
-                android:layout_toStartOf="@id/img_message"
-                android:layout_toEndOf="@id/img_profile"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/background_text_view"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/_10sdp">
 
                 <ImageView
                     android:layout_width="wrap_content"

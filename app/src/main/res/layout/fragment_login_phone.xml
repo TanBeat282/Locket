@@ -71,6 +71,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
                 android:layout_weight="1"
+                android:textCursorDrawable="@drawable/cursor_color"
                 android:background="@drawable/background_edit_text"
                 android:fontFamily="@font/black"
                 android:textSize="@dimen/_14ssp"

@@ -85,12 +85,12 @@
 
                 <ImageView
                     android:id="@+id/img_library"
-                    app:tint="@color/white"
                     android:layout_width="@dimen/_45sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:layout_gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:src="@drawable/imagesmode_24px" />
+                    android:src="@drawable/ic_widget_empty_icon"
+                    app:tint="@color/white" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -103,7 +103,7 @@
                         app:riv_corner_radius="@dimen/_50sdp"
                         android:layout_width="@dimen/_70sdp"
                         android:layout_height="@dimen/_70sdp"
-                        android:background="@drawable/background_btn_capture"
+                        android:background="@drawable/bg_widget_empty_circle_outline"
                         android:padding="@dimen/_5sdp"
                         android:src="@color/white" />
                 </LinearLayout>

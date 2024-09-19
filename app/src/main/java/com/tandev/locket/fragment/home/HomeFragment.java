@@ -263,7 +263,7 @@ public class HomeFragment extends Fragment {
                             getMomentV2(finalExcludedUsers); // Gọi đệ quy với danh sách đã cập nhật
                         } else {
                             SharedPreferencesUser.saveUserFriends(requireContext(), finalExcludedUsers);
-                            txt_number_friends.setText(finalExcludedUsers.size() + " bạn bè");
+                            txt_number_friends.setText(finalExcludedUsers.size() + " Bạn bè");
                         }
                     } catch (IOException e) {
                         Log.e("Response Error", "Error reading response body", e);

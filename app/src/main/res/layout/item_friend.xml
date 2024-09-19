@@ -10,7 +10,7 @@
         android:layout_width="@dimen/_45sdp"
         android:layout_height="@dimen/_45sdp"
         android:layout_alignParentStart="true"
-        android:background="@drawable/background_btn_capture"
+        android:background="@drawable/bg_widget_empty_circle_outline"
         android:padding="@dimen/_3sdp"
         android:src="@color/white"
         app:riv_corner_radius="@dimen/_50sdp" />

@@ -37,8 +37,8 @@
                     android:id="@+id/img_capture"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_100sdp"
-                    android:background="@drawable/background_btn_capture"
-                    android:padding="@dimen/_6sdp"
+                    android:background="@drawable/bg_widget_empty_circle_outline"
+                    android:padding="@dimen/_5sdp"
                     android:src="@color/white"
                     app:riv_corner_radius="@dimen/_50sdp" />
 
@@ -95,7 +95,7 @@
                     android:id="@+id/img_avatar_2"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:background="@drawable/background_btn_capture"
+                    android:background="@drawable/bg_widget_empty_circle_outline"
                     android:padding="@dimen/_4sdp"
                     android:src="@color/white"
                     app:riv_corner_radius="@dimen/_50sdp" />
