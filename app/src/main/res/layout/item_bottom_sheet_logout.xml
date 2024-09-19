@@ -34,6 +34,7 @@
             android:background="@color/bg" />
 
         <LinearLayout
+            android:id="@+id/linear_logout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:gravity="center">
@@ -57,6 +58,7 @@
             android:background="@color/bg" />
 
         <LinearLayout
+            android:id="@+id/linear_cancel"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:gravity="center">

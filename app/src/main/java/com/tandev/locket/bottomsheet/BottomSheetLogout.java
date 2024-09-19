@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class BottomSheetLogout extends BottomSheetDialogFragment {
     private final Activity activity;
     private BottomSheetDialog bottomSheetDialog;
 
+    private LinearLayout linear_logout, linear_cancel;
 
     public BottomSheetLogout(Context context, Activity activity) {
         this.context = context;
@@ -53,18 +55,31 @@ public class BottomSheetLogout extends BottomSheetDialogFragment {
     }
 
     private void initViews(BottomSheetDialog bottomSheetDialog) {
-
+        linear_logout = bottomSheetDialog.findViewById(R.id.linear_logout);
+        linear_cancel = bottomSheetDialog.findViewById(R.id.linear_cancel);
     }
 
     private void onClick() {
-
+        linear_logout.setOnClickListener(view -> {
+            SharedPreferencesUser.clearAll(requireContext());
+            dismiss();
+            releaseFragment();
+        });
+        linear_cancel.setOnClickListener(view -> {
+            dismiss();
+        });
     }
+
     private void releaseFragment() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout, new LoginOrRegisterFragment());
-        // Xóa toàn bộ back stack để không quay lại các Fragment trước đó
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         transaction.commit();
+    }
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        dismiss();
     }
 }

@@ -16,8 +16,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -25,20 +23,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tandev.locket.R;
-import com.tandev.locket.fragment.login.LoginOrRegisterFragment;
-import com.tandev.locket.model.login.response.LoginResponse;
 import com.tandev.locket.model.user.AccountInfo;
 import com.tandev.locket.sharedfreferences.SharedPreferencesUser;
 
 public class BottomSheetInfo extends BottomSheetDialogFragment {
     private final Context context;
     private final Activity activity;
-    private BottomSheetDialog bottomSheetDialog;
 
-    private RoundedImageView img_capture;
-    private RoundedImageView img_avatar_2;
     private TextView txt_edit_info;
-    private TextView txt_full_name;
     private LinearLayout linear_logout, linear_new, linear_change_email;
 
     public BottomSheetInfo(Context context, Activity activity) {
@@ -52,15 +44,11 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        bottomSheetDialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_bottom_sheet_info, null);
         bottomSheetDialog.setContentView(view);
-        // Customize BottomSheet
-        bottomSheetDialog.setOnShowListener(dialog -> {
-            BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
-            behavior.setPeekHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        });
+        BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         initViews(bottomSheetDialog);
         onClick();
@@ -71,9 +59,9 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
     private void initViews(BottomSheetDialog bottomSheetDialog) {
         txt_edit_info = bottomSheetDialog.findViewById(R.id.txt_edit_info);
         linear_new = bottomSheetDialog.findViewById(R.id.linear_new);
-        img_capture = bottomSheetDialog.findViewById(R.id.img_capture);
-        img_avatar_2 = bottomSheetDialog.findViewById(R.id.img_avatar_2);
-        txt_full_name = bottomSheetDialog.findViewById(R.id.txt_full_name);
+        RoundedImageView img_capture = bottomSheetDialog.findViewById(R.id.img_capture);
+        RoundedImageView img_avatar_2 = bottomSheetDialog.findViewById(R.id.img_avatar_2);
+        TextView txt_full_name = bottomSheetDialog.findViewById(R.id.txt_full_name);
         linear_change_email = bottomSheetDialog.findViewById(R.id.linear_change_email);
         linear_logout = bottomSheetDialog.findViewById(R.id.linear_logout);
 
@@ -95,20 +83,25 @@ public class BottomSheetInfo extends BottomSheetDialogFragment {
     }
 
     private void openBottomSheetRegisterUserName() {
+        dismiss();
         BottomSheetRegisterUserName bottomSheetRegisterUserName = new BottomSheetRegisterUserName(context, activity);
         bottomSheetRegisterUserName.show(getActivity().getSupportFragmentManager(), bottomSheetRegisterUserName.getTag());
     }
+
     private void openBottomSheetChangeEmail() {
+        dismiss();
         BottomSheetChangeEmail bottomSheetChangeEmail = new BottomSheetChangeEmail(context, activity);
         bottomSheetChangeEmail.show(getActivity().getSupportFragmentManager(), bottomSheetChangeEmail.getTag());
     }
 
     private void openBottomSheetLogout() {
+        dismiss();
         BottomSheetLogout bottomSheetLogout = new BottomSheetLogout(context, activity);
         bottomSheetLogout.show(getActivity().getSupportFragmentManager(), bottomSheetLogout.getTag());
     }
 
     private void openBottomSheetChangeName() {
+        dismiss();
         BottomSheetChangeName bottomSheetChangeName = new BottomSheetChangeName(context, activity);
         bottomSheetChangeName.show(getActivity().getSupportFragmentManager(), bottomSheetChangeName.getTag());
     }

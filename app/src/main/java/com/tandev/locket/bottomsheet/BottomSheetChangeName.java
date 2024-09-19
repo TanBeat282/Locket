@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,22 +23,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.tandev.locket.R;
-import com.tandev.locket.api.LoginApiService;
 import com.tandev.locket.api.UserApiService;
 import com.tandev.locket.api.client.LoginApiClient;
-import com.tandev.locket.fragment.login.LoginOrRegisterFragment;
 import com.tandev.locket.model.user.AccountInfo;
 import com.tandev.locket.sharedfreferences.SharedPreferencesUser;
-
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -73,12 +66,8 @@ public class BottomSheetChangeName extends BottomSheetDialogFragment {
         bottomSheetDialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_bottom_sheet_change_name, null);
         bottomSheetDialog.setContentView(view);
-        // Customize BottomSheet
-        bottomSheetDialog.setOnShowListener(dialog -> {
-            BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
-            behavior.setPeekHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        });
+        BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         userApiService = LoginApiClient.getCheckEmailClient().create(UserApiService.class);
         accountInfo = SharedPreferencesUser.getAccountInfo(context);
@@ -116,7 +105,7 @@ public class BottomSheetChangeName extends BottomSheetDialogFragment {
 
                 if (!name.isEmpty() && !surname.isEmpty()) {
                     linear_continue.setBackground(ContextCompat.getDrawable(context, R.drawable.background_btn_continue_check));
-                    txt_continue.setTextColor(getResources().getColor(R.color.bg));
+                    txt_continue.setTextColor(ContextCompat.getColor(context, R.color.bg));
                     linear_continue.setEnabled(true);
                 } else {
                     linear_continue.setBackground(ContextCompat.getDrawable(context, R.drawable.background_btn_continue_un_check));
@@ -140,11 +129,11 @@ public class BottomSheetChangeName extends BottomSheetDialogFragment {
 
                 if (!surname.isEmpty() && !name.isEmpty()) {
                     linear_continue.setBackground(ContextCompat.getDrawable(context, R.drawable.background_btn_continue_check));
-                    txt_continue.setTextColor(getResources().getColor(R.color.bg));
+                    txt_continue.setTextColor(ContextCompat.getColor(context, R.color.bg));
                     linear_continue.setEnabled(true);
                 } else {
                     linear_continue.setBackground(ContextCompat.getDrawable(context, R.drawable.background_btn_continue_un_check));
-                    txt_continue.setTextColor(ContextCompat.getColor(context, R.color.hint));
+                    txt_continue.setTextColor(ContextCompat.getColor(context, R.color.bg));
                     linear_continue.setEnabled(false);
                 }
             }
@@ -160,9 +149,7 @@ public class BottomSheetChangeName extends BottomSheetDialogFragment {
 
     private void onClick() {
 
-        linear_continue.setOnClickListener(view -> {
-            changeName();
-        });
+        linear_continue.setOnClickListener(view -> changeName());
     }
 
     private String createChangeNameJson(String name, String surname) {
@@ -180,7 +167,7 @@ public class BottomSheetChangeName extends BottomSheetDialogFragment {
         ResponseBodyCall.enqueue(new Callback<ResponseBody>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     txt_continue.setText("Các thay đổi đã được lưu");
                     bottomSheetDialog.dismiss();
@@ -190,7 +177,7 @@ public class BottomSheetChangeName extends BottomSheetDialogFragment {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable throwable) {
                 Log.e(">>>>>>>>>>>>>>>>>>>>", "Unsuccessful response: " + throwable.getMessage());
             }
         });
@@ -199,22 +186,15 @@ public class BottomSheetChangeName extends BottomSheetDialogFragment {
     public static String[] splitName(String displayName) {
         String[] nameParts = displayName.trim().split("\\s+");
         int length = nameParts.length;
-
-        // Họ là phần cuối cùng
         String surname = nameParts[length - 1];
-
-        // Tên là tất cả phần còn lại, nối lại thành chuỗi
         String name = String.join(" ", java.util.Arrays.copyOf(nameParts, length - 1));
-
         return new String[]{name, surname};
     }
 
-    private void releaseFragment() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, new LoginOrRegisterFragment());
-        // Xóa toàn bộ back stack để không quay lại các Fragment trước đó
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        transaction.commit();
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        BottomSheetInfo bottomSheet1 = new BottomSheetInfo(context, activity);
+        bottomSheet1.show(getParentFragmentManager(), bottomSheet1.getTag());
     }
 }

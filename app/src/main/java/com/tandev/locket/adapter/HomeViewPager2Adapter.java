@@ -6,21 +6,25 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.tandev.locket.fragment.home.HomeFragment;
+import com.tandev.locket.fragment.live_camera.LiveCameraFragment;
 import com.tandev.locket.fragment.moment.MomentFragment;
+import com.tandev.locket.fragment.view_moment.ViewMomentFragment;
 
-public class HomeStateAdapter extends FragmentStateAdapter {
+public class HomeViewPager2Adapter extends FragmentStateAdapter {
 
-    public HomeStateAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public HomeViewPager2Adapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if (position == 1) {
-            return new MomentFragment();
+        switch (position) {
+            case 1:
+                return new ViewMomentFragment();
+            default:
+                return new LiveCameraFragment();
         }
-        return new HomeFragment();
     }
 
     @Override

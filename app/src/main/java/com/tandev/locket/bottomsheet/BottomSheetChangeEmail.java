@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -85,12 +86,8 @@ public class BottomSheetChangeEmail extends BottomSheetDialogFragment implements
         bottomSheetDialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_bottom_sheet_change_email, null);
         bottomSheetDialog.setContentView(view);
-        // Customize BottomSheet
-        bottomSheetDialog.setOnShowListener(dialog -> {
-            BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
-            behavior.setPeekHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        });
+        BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         // Initialize fragment and set listener
         CheckPassFragment checkPassFragment = new CheckPassFragment();
@@ -332,7 +329,7 @@ public class BottomSheetChangeEmail extends BottomSheetDialogFragment implements
     }
 
     private void replaceFragmentWithBackStack(Fragment newFragment) {
-        FragmentManager fragmentManager = getChildFragmentManager(); // Thay đổi đây
+        FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(
                 R.anim.enter_from_right,
@@ -346,8 +343,8 @@ public class BottomSheetChangeEmail extends BottomSheetDialogFragment implements
     }
 
     private Fragment getCurrentFragment() {
-        FragmentManager fragmentManager = getChildFragmentManager(); // Lấy FragmentManager của BottomSheetDialogFragment
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.frame_layout); // Lấy fragment đang hiển thị trong frame_layout
+        FragmentManager fragmentManager = getChildFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.frame_layout);
         return currentFragment;
     }
 
@@ -355,7 +352,6 @@ public class BottomSheetChangeEmail extends BottomSheetDialogFragment implements
     @Override
     public void onPasswordChanged(String password) {
         if (password.length() >= 3) {
-            // Đổi màu nền và kích hoạt LinearLayout nếu email hợp lệ
             linear_continue.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.background_btn_continue_check));
             txt_continue.setTextColor(getResources().getColor(R.color.bg));
             linear_continue.setEnabled(true);
@@ -366,7 +362,6 @@ public class BottomSheetChangeEmail extends BottomSheetDialogFragment implements
         }
     }
 
-    // Phương thức kiểm tra định dạng email
     private boolean isValidEmail(CharSequence email) {
         return email != null && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -374,7 +369,6 @@ public class BottomSheetChangeEmail extends BottomSheetDialogFragment implements
     @Override
     public void onEmailChanged(String email) {
         if (isValidEmail(email)) {
-            // Đổi màu nền và kích hoạt LinearLayout nếu email hợp lệ
             linear_continue.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.background_btn_continue_check));
             txt_continue.setTextColor(getResources().getColor(R.color.bg));
             linear_continue.setEnabled(true);
@@ -383,5 +377,11 @@ public class BottomSheetChangeEmail extends BottomSheetDialogFragment implements
             txt_continue.setTextColor(ContextCompat.getColor(requireContext(), R.color.hint));
             linear_continue.setEnabled(false);
         }
+    }
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        BottomSheetInfo bottomSheet1 = new BottomSheetInfo(context, activity);
+        bottomSheet1.show(getParentFragmentManager(), bottomSheet1.getTag());
     }
 }

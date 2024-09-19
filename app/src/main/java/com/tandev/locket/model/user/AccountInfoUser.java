@@ -3,7 +3,7 @@ package com.tandev.locket.model.user;
 import java.io.Serializable;
 import java.util.List;
 
-public class User implements Serializable {
+public class AccountInfoUser implements Serializable {
     private String localId;
     private String email;
     private String displayName;
@@ -17,6 +17,7 @@ public class User implements Serializable {
     private long lastLoginAt;
     private long createdAt;
     private boolean customAuth;
+    private String phoneNumber;
     private String lastRefreshAt;
 
     public String getLocalId() {
@@ -121,6 +122,14 @@ public class User implements Serializable {
 
     public void setCustomAuth(boolean customAuth) {
         this.customAuth = customAuth;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getLastRefreshAt() {

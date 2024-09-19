@@ -1,5 +1,6 @@
 package com.tandev.locket.fragment.login;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -25,10 +26,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.tandev.locket.R;
+import com.tandev.locket.api.FriendApiService;
 import com.tandev.locket.fragment.home.HomeFragment;
+import com.tandev.locket.fragment.register_username.RegisterUserNameFragment;
 import com.tandev.locket.helper.ResponseUtils;
 import com.tandev.locket.api.client.LoginApiClient;
 import com.tandev.locket.api.LoginApiService;
+import com.tandev.locket.model.firend.Friend;
 import com.tandev.locket.model.login.check_email.CheckEmailResponse;
 import com.tandev.locket.model.login.request.LoginRequest;
 import com.tandev.locket.model.login.response.LoginResponse;
@@ -60,6 +64,7 @@ public class LoginEmailFragment2 extends Fragment {
 
     private Retrofit retrofit;
     private LoginApiService loginApiService;
+    private FriendApiService friendApiService;
     private String data, password;
     private boolean isPhone = false;
 
@@ -80,6 +85,7 @@ public class LoginEmailFragment2 extends Fragment {
 
         //
         loginApiService = LoginApiClient.getCheckEmailClient().create(LoginApiService.class);
+        friendApiService = LoginApiClient.getCheckEmailClient().create(FriendApiService.class);
 
         retrofit = LoginApiClient.getLoginClient();
         loginApiService = retrofit.create(LoginApiService.class);
@@ -276,8 +282,7 @@ public class LoginEmailFragment2 extends Fragment {
                         AccountInfo accountInfo = gson.fromJson(responseBody, AccountInfo.class);
 
                         SharedPreferencesUser.saveAccountInfo(requireContext(), accountInfo);
-
-                        releaseFragment();
+                        checkUserName(accountInfo.getUsers().get(0).getLocalId(), token);
                     } catch (IOException e) {
                         Log.e("Auth", "Error reading response body", e);
                     }
@@ -302,6 +307,47 @@ public class LoginEmailFragment2 extends Fragment {
         });
     }
 
+    @SuppressLint("DefaultLocale")
+    private String createGetFriendsJson(String user_id) {
+        return String.format(
+                "{\"data\":{\"user_uid\":\"%s\"}}",
+                user_id
+        );
+    }
+
+    private void checkUserName(String local_id, String token) {
+        String bear_token = "Bearer " + token;
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), createGetFriendsJson(local_id));
+        Call<ResponseBody> ResponseBodyCall = friendApiService.FETCH_USER_RESPONSE_CALL(bear_token, requestBody);
+        ResponseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String responseBody = response.body().string();
+                        Gson gson = new Gson();
+                        Friend friend = gson.fromJson(responseBody, Friend.class);
+                        if (friend.getResult().getData().getUsername() == null) {
+                            releaseFragment(new RegisterUserNameFragment());
+                        } else {
+                            releaseFragment(new HomeFragment());
+                        }
+                    } catch (IOException e) {
+                        Log.e("Response Error", "Error reading response body", e);
+                    }
+                } else {
+                    Log.e("Response Error", "Failed response from getMomentV2");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                Log.e("Response Error", "Unsuccessful response: " + throwable.getMessage());
+            }
+        });
+    }
+
     private void showAlertDialog(String title, String content) {
         new AlertDialog.Builder(requireContext())
                 .setTitle(title)
@@ -312,7 +358,7 @@ public class LoginEmailFragment2 extends Fragment {
                 .show();
     }
 
-    private void releaseFragment() {
+    private void releaseFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(
@@ -321,7 +367,7 @@ public class LoginEmailFragment2 extends Fragment {
                 R.anim.enter_from_left,
                 R.anim.exit_to_right
         );
-        transaction.replace(R.id.frame_layout, new HomeFragment());
+        transaction.replace(R.id.frame_layout, fragment);
         // Xóa toàn bộ back stack để không quay lại các Fragment trước đó
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         transaction.commit();

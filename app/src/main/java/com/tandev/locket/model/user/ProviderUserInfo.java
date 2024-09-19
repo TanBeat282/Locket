@@ -8,6 +8,7 @@ public class ProviderUserInfo implements Serializable {
     private String photoUrl;
     private String federatedId;
     private String email;
+    private String phoneNumber;
     private String rawId;
 
     public String getProviderId() {
@@ -48,6 +49,14 @@ public class ProviderUserInfo implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getRawId() {

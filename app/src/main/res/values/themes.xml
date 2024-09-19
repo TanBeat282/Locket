@@ -29,4 +29,9 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50dp</item>
     </style>
+    <style name="RoundedCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item> <!-- Điều chỉnh kích thước góc bo -->
+    </style>
+
 </resources>

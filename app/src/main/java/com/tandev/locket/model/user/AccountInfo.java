@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AccountInfo implements Serializable {
     private String kind;
-    private List<User> users;
+    private List<AccountInfoUser> users;
 
     public String getKind() {
         return kind;
@@ -15,11 +15,11 @@ public class AccountInfo implements Serializable {
         this.kind = kind;
     }
 
-    public List<User> getUsers() {
+    public List<AccountInfoUser> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<AccountInfoUser> users) {
         this.users = users;
     }
 }

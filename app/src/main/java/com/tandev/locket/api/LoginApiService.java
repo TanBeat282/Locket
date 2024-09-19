@@ -38,11 +38,12 @@ public interface LoginApiService {
 
     //Forgot password
     @Headers({
-            "Accept: */*",
             "Accept-Encoding: gzip",
-            "Accept-Language: en",
             "Connection: keep-alive",
-            "Content-Type: application/json; charset=utf-8"
+            "Content-Type: application/json; charset=utf-8",
+            "Firebase-Instance-ID-Token: dTNmyvemRZa4oRGQQVW4yF:APA91bF1c7CTa3ytH5WBX3_0ZUxzEO0sJSrnWXN75_3HuFxo3QAlJpaa79uHscUzEx7uxXQEZRscbG54KgnWt3rhNmEscLvURvCCNVn6tQVyl79uydsiHoeDRGOa9G6zBLj3jO-ncYqK",
+            "Host: api.locketcamera.com",
+            "User-Agent: okhttp/4.9.2"
     })
     @POST("sendPasswordResetEmail")
     Call<ResponseBody> FORGOT_PASSWORD_RESPONSE_CALL(@Body RequestBody body);
@@ -84,6 +85,24 @@ public interface LoginApiService {
     })
     @POST("identitytoolkit/v3/relyingparty/getAccountInfo?key=AIzaSyB5dTd-xiLD5dEfWq5OpptnQtnMpE0W0u8")
     Call<ResponseBody> ACCOUNT_INFO_RESPONSE_CALL(@Body RequestBody body);
+
+    //Account Info
+    @Headers({
+            "Accept-Encoding: gzip",
+            "Accept-Language: vi-VN, en-US",
+            "Connection: Keep-Alive",
+            "Content-Type: application/json",
+            "Host: securetoken.googleapis.com",
+            "User-Agent: Dalvik/2.1.0 (Linux; U; Android 11; sdk_gphone_x86 Build/RSR1.240422.006)",
+            "X-Android-Cert: 187A27D3D7364A044307F56E66230F973DCCD5B7",
+            "X-Android-Package: com.locket.Locket",
+            "X-Client-Version: Android/Fallback/X22002000/FirebaseCore-Android",
+            "X-Firebase-AppCheck: eyJlcnJvciI6IlVOS05PV05fRVJST1IifQ==",
+            "X-Firebase-Client: H4sIAAAAAAAAAKtWykhNLCpJSk0sKVayio7VUSpLLSrOzM9TslIyUqoFAFyivEQfAAAA",
+            "X-Firebase-GMPID: 1:641029076083:android:eac8183b796b856d4fa606"
+    })
+    @POST("v1/token?key=AIzaSyB5dTd-xiLD5dEfWq5OpptnQtnMpE0W0u8")
+    Call<ResponseBody> REFRESH_TOKEN_RESPONSE_CALL(@Body RequestBody body);
 
 
 }
