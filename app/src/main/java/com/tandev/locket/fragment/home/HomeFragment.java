@@ -164,13 +164,13 @@ public class HomeFragment extends Fragment {
     private void checkExpiresToken() {
         AccountInfo accountInfo = SharedPreferencesUser.getAccountInfo(requireContext());
         long lastLoginTime = accountInfo.getUsers().get(0).getLastLoginAt();
-        long expiryDuration = 3600 * 1000;
+        long expiryDuration = 3500 * 1000;
         long expiryTime = lastLoginTime + expiryDuration;
         long currentTime = System.currentTimeMillis();
-        if (currentTime > expiryTime) {
+        if (currentTime >= expiryTime) {
             refreshToken();
         }else {
-            getMomentV2(null);
+//            getMomentV2(null);
         }
     }
 
@@ -199,13 +199,13 @@ public class HomeFragment extends Fragment {
                         AuthResponse authResponse = gson.fromJson(responseBody, AuthResponse.class);
 
                         //save user
-                        LoginResponse newLoginResponse = new LoginResponse();
+                        LoginResponse newLoginResponse = SharedPreferencesUser.getLoginResponse(requireContext());
                         newLoginResponse.setIdToken(authResponse.getIdToken());
                         newLoginResponse.setRefreshToken(authResponse.getRefreshToken());
                         SharedPreferencesUser.saveLoginResponse(requireContext(), newLoginResponse);
 
 
-                        getMomentV2(null);
+//                        getMomentV2(null);
                     } catch (IOException e) {
                         Log.e("Auth", "Error reading response body", e);
                     }

@@ -1,12 +1,29 @@
 package com.tandev.locket.model.auth;
 
-public class AuthResponse {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class AuthResponse implements Serializable {
+    @SerializedName("access_token")
     private String accessToken;
+
+    @SerializedName("expires_in")
     private String expiresIn;
+
+    @SerializedName("token_type")
     private String tokenType;
+
+    @SerializedName("refresh_token")
     private String refreshToken;
+
+    @SerializedName("id_token")
     private String idToken;
+
+    @SerializedName("user_id")
     private String userId;
+
+    @SerializedName("project_id")
     private String projectId;
 
     // Getters and Setters

@@ -70,7 +70,6 @@
             android:id="@+id/linear_controller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relative_camera"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -196,7 +195,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginBottom="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -206,13 +205,13 @@
                 android:fontFamily="@font/assets_fonts_proximasoft_proximasoftbold"
                 android:text="Lịch sử"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_16ssp" />
 
             <ImageView
                 android:id="@+id/img_history"
                 app:tint="@color/white"
-                android:layout_width="@dimen/_26sdp"
-                android:layout_height="@dimen/_26sdp"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:src="@drawable/keyboard_arrow_down_24px" />
         </LinearLayout>

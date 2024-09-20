@@ -28,8 +28,8 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/img_profile"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_alignParentStart="true"
                 android:background="@drawable/background_btn"
                 android:padding="@dimen/_5sdp"
@@ -40,7 +40,7 @@
             <LinearLayout
                 android:id="@+id/linear_friends"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_38sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/background_text_view"
                 android:gravity="center"
@@ -67,8 +67,8 @@
 
             <ImageView
                 android:id="@+id/img_message"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/background_btn"
                 android:padding="@dimen/_10sdp"
